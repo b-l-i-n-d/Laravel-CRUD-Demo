@@ -6,6 +6,7 @@
         <div class="col-md-8">
             <div class="text-center">
                 <a href="{{ route('create-contact') }}" class="btn btn-outline-dark mb-5" role="button" aria-pressed="true">Create New Contact</a>
+                <a href="{{ route('view-country') }}" class="btn btn-outline-dark mb-5" role="button" aria-pressed="true">Go to Country</a>
             </div>
 {{--            {{$conacts->firstName}}--}}
             <table class="table table-striped">
