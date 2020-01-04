@@ -26,7 +26,7 @@ class CountryController extends Controller
             'countryName' => $countryName
         ]);
 
-        return redirect('view-country');
+        return redirect(route('view-country'));
     }
 
     public function editCountry($id) {

@@ -16,6 +16,7 @@
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Country Name</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
@@ -27,6 +28,7 @@
                             <td>{{$contact->firstName}}</td>
                             <td>{{$contact->lastName}}</td>
                             <td>{{$contact->email}}</td>
+                            <td>{{$contact->country_id}}</td>
                             <td>
                                 <a href="{{route('edit-contact', $contact->id)}}" class="btn btn-outline-dark" role="button" aria-pressed="true">Update</a>
                             </td>

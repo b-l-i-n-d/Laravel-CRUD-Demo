@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Model\Contact;
+use App\Model\Country;
 use Egulias\EmailValidator\Exception\ConsecutiveAt;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function createContact() {
-        return view("\user\createContact");
+        $countries = Country::all();
+
+//        dd($countries[0]->countryName);
+        return view("\user\createContact", [
+            'countries' => $countries
+        ]);
     }
 
     public function saveContact(Request $request) {
@@ -17,11 +23,13 @@ class UserController extends Controller
         $firstName = $request->firstName;
         $lastName = $request->lastName;
         $email = $request->email;
+        $country_id = $request->country_id;
 
         $contact = Contact::create([
             'firstName' => $firstName,
             'lastName' => $lastName,
-            'email' => $email
+            'email' => $email,
+            'country_id' => $country_id
         ]);
 //        dd('contact saved');
         return redirect('home');

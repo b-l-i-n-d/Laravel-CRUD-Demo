@@ -35,6 +35,19 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label id="countryId" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
+
+                                <div class="col-md-6">
+                                    <select class="custom-select" name="country_id" id="countryId">
+                                        <option selected>Choose Country</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country->id}}">{{$country->countryName}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
