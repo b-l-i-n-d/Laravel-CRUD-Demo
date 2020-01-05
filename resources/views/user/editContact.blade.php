@@ -15,7 +15,8 @@
                                 <label for="firstName" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="firstName" type="text" class="form-control" name="firstName" value="{{$contact->firstName}}" required autocomplete="firstName" autofocus>
+                                    <input id="firstName" type="text" class="form-control" name="firstName" value="{{$contact->firstName}}" autocomplete="firstName" autofocus>
+                                    <small class="text-danger">{{ $errors->first('firstName') }}</small>
                                 </div>
                             </div>
 
@@ -23,7 +24,8 @@
                                 <label for="lastName" class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="lastName" type="text" class="form-control" name="lastName" value="{{$contact->lastName}}" required autocomplete="lastName" autofocus>
+                                    <input id="lastName" type="text" class="form-control" name="lastName" value="{{$contact->lastName}}" autocomplete="lastName" autofocus>
+                                    <small class="text-danger">{{ $errors->first('lastName') }}</small>
                                 </div>
                             </div>
 
@@ -31,7 +33,24 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{$contact->email}}" required autocomplete="email">
+                                    <input id="email" type="email" class="form-control" name="email" value="{{$contact->email}}" autocomplete="email">
+                                    <small class="text-danger">{{ $errors->first('email') }}</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label id="countryId" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
+
+                                <div class="col-md-6">
+                                    <select class="custom-select" name="country_id" id="countryId">
+                                        @foreach($countries as $country)
+                                            @if($country->id == $contact->country_id)
+                                                <option selected value="{{$country->id}}">{{$country->countryName}}</option>
+                                            @else
+                                                <option value="{{$country->id}}">{{$country->countryName}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 

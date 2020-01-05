@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Contact;
 use App\Model\Country;
 use Egulias\EmailValidator\Exception\ConsecutiveAt;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -19,6 +20,19 @@ class UserController extends Controller
     }
 
     public function saveContact(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required | max:255',
+            'lastName' => 'required | max:255',
+            'email' => 'required | email | unique:contacts, email',
+            'country_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('create-contact'))
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $firstName = $request->firstName;
         $lastName = $request->lastName;
@@ -37,17 +51,34 @@ class UserController extends Controller
 
     public function editContact($id) {
         $contact = Contact::find($id);
+        $countries = Country::all();
         return view('user\editContact', [
-            'contact' => $contact
+            'contact' => $contact,
+            'countries' => $countries
         ]);
     }
 
     public function updateContact(Request $request, $id) {
+
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required | max:255',
+            'lastName' => 'required | max:255',
+            'email' => 'required | email',
+            'country_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('edit-contact', $id))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $updatedContact = Contact::find($id);
         $updatedContact->firstName = $request->firstName;
         $updatedContact->lastName = $request->lastName;
         $updatedContact->email = $request->email;
-
+        $updatedContact->country_id = $request->country_id;
+//        dd($updatedContact->country_id);
         $updatedContact->save();
 
         return redirect("home");

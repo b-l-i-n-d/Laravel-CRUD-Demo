@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CountryController extends Controller
 {
@@ -19,6 +20,15 @@ class CountryController extends Controller
     }
 
     public function saveCountry(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'countryName' => 'required | max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route("add-country"))
+                -> withErrors($validator)
+                -> withInput();
+        }
         $countryName = $request->countryName;
 
 //        dd($countryName);
@@ -38,6 +48,16 @@ class CountryController extends Controller
     }
 
     public function updateCountry(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'countryName' => 'required | max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route("edit-country", $id))
+                -> withErrors($validator)
+                -> withInput();
+        }
+
         $updatedCountry = Country::find($id);
         $updatedCountry->countryName = $request->countryName;
 

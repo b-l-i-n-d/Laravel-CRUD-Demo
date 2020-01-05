@@ -24,8 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
-//        dd($contacts->firstName);
+
+        $contacts = Contact::with('country')->get();
+//        dd($contacts[0]->country->countryName);
         return view('home', [
             'contacts' => $contacts
         ]);

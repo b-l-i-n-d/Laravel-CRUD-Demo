@@ -15,7 +15,8 @@
                                 <label for="countryName" class="col-md-4 col-form-label text-md-right">{{ __('Country Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="countryName" type="text" class="form-control" name="countryName" placeholder="ex: Bangladesh" required autocomplete="countryName" autofocus>
+                                    <input id="countryName" type="text" class="form-control" name="countryName" placeholder="ex: Bangladesh" autocomplete="countryName" autofocus>
+                                    <small class="text-danger">{{$errors->first('countryName')}}</small>
                                 </div>
                             </div>
 
@@ -32,5 +33,6 @@
             </div>
         </div>
     </div>
+
 @endsection
 

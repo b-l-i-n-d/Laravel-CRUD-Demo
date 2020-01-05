@@ -8,4 +8,8 @@ class Contact extends Model
 {
     protected $table = 'contacts';
     protected $fillable = ['firstName', 'lastName', 'email', 'country_id'];
+
+    public function country() {
+        return $this->belongsTo('App\Model\Country');
+    }
 }

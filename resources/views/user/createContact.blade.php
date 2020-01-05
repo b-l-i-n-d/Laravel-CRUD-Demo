@@ -8,14 +8,15 @@
                     <div class="card-header">{{ __('Create User') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('save-contact') }}">
+                        <form id="createContact" method="POST" action="{{ route('save-contact') }}">
                             @csrf
 
                             <div class="form-group row">
                                 <label for="firstName" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="firstName" type="text" class="form-control" name="firstName" placeholder="ex: John" required autocomplete="firstName" autofocus>
+                                    <input id="firstName" type="text" class="form-control" name="firstName" placeholder="ex: John" autocomplete="firstName" autofocus>
+                                    <small class="text-danger">{{ $errors->first('firstName') }}</small>
                                 </div>
                             </div>
 
@@ -23,7 +24,8 @@
                                 <label for="lastName" class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="lastName" type="text" class="form-control" name="lastName" placeholder="ex: Wick" required autocomplete="lastName" autofocus>
+                                    <input id="lastName" type="text" class="form-control" name="lastName" placeholder="ex: Wick" autocomplete="lastName" autofocus>
+                                    <small class="text-danger">{{ $errors->first('lastName') }}</small>
                                 </div>
                             </div>
 
@@ -31,7 +33,8 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" placeholder="example@example.domain" required autocomplete="email">
+                                    <input id="email" type="email" class="form-control" name="email" placeholder="example@example.domain" autocomplete="email">
+                                    <small class="text-danger">{{ $errors->first('email') }}</small>
                                 </div>
                             </div>
 
@@ -61,5 +64,8 @@
             </div>
         </div>
     </div>
+    @push("script")
+        @include("script/createContact")
+    @endpush
 @endsection
 

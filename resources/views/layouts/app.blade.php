@@ -76,5 +76,10 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset("plugin/jquery/jquery-3.4.1.min.js") }}"></script>
+    <script src="{{ asset("plugin/parsley/parsley.min.js") }}"></script>
+    @stack("script")
+
 </body>
 </html>
