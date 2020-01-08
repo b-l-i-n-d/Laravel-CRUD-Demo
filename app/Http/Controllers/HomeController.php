@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,9 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $contacts = Contact::with('country')->get();
-//        dd($contacts[0]->country->countryName);
+        $currentUser = Auth::user();
+        $contacts = Contact::where('user_id', $currentUser->id)
+            -> with('country')->get();
+//        dd($contacts);
         return view('home', [
             'contacts' => $contacts
         ]);

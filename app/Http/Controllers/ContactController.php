@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Model\Contact;
 use App\Model\Country;
-use Egulias\EmailValidator\Exception\ConsecutiveAt;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class ContactController extends Controller
 {
     public function createContact() {
         $countries = Country::all();
+        $users = User::all();
+//        dd($users);
 
 //        dd($countries[0]->countryName);
         return view("\user\createContact", [
@@ -24,14 +27,16 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName' => 'required | max:255',
             'lastName' => 'required | max:255',
-            'email' => 'required | email | unique:contacts, email',
+            'email' => 'required | email | unique:contacts,email',
             'country_id' => 'required'
         ]);
+//        dd($validator->errors());
 
         if ($validator->fails()) {
-            return redirect(route('create-contact'))
-                ->withErrors($validator)
-                ->withInput();
+//            return redirect(route('create-contact'))
+//                ->withErrors($validator)
+//                ->withInput();
+            return response()->json(['statusCode'=>201]);
         }
 
         $firstName = $request->firstName;
@@ -43,10 +48,12 @@ class UserController extends Controller
             'firstName' => $firstName,
             'lastName' => $lastName,
             'email' => $email,
-            'country_id' => $country_id
+            'country_id' => $country_id,
+            'user_id' => Auth::user()->id
         ]);
 //        dd('contact saved');
-        return redirect('home');
+//        return redirect('home');
+        return response()->json(['statusCode'=>200]);
     }
 
     public function editContact($id) {
@@ -63,7 +70,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName' => 'required | max:255',
             'lastName' => 'required | max:255',
-            'email' => 'required | email',
+            'email' => 'required | email | unique:contacts,email,'.$id,
             'country_id' => 'required'
         ]);
 
@@ -90,5 +97,19 @@ class UserController extends Controller
         $contact->delete();
 
         return redirect("home");
+    }
+
+    public function validateEmail (Request $request) {
+
+        if ($request->email !== ''){
+            $validator = Validator::make($request->all(), [
+                'email' => 'required | unique:contacts,email',
+            ]);
+            if ($validator->fails()) {
+//                dd("hello");
+                return response()->json(['error'=>$validator->errors()->all()]);
+            }
+        }
+        return response()->json(['success'=>true]);
     }
 }

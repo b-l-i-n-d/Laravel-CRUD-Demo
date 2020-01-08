@@ -34,12 +34,12 @@
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email" placeholder="example@example.domain" autocomplete="email">
-                                    <small class="text-danger">{{ $errors->first('email') }}</small>
+                                    <small id="create-email-error" class="text-danger">{{ $errors->first('email') }}</small>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label id="countryId" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
+                                <label id="country_id" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
                                     <select class="custom-select" name="country_id" id="countryId">
@@ -53,7 +53,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" id="create-contact-button">
                                         {{ __('Create') }}
                                     </button>
                                 </div>

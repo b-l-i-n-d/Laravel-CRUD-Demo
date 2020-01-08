@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -76,9 +76,7 @@
             @yield('content')
         </main>
     </div>
-
-    <script src="{{ asset("plugin/jquery/jquery-3.4.1.min.js") }}"></script>
-    <script src="{{ asset("plugin/parsley/parsley.min.js") }}"></script>
+    <script src="{{asset("plugin/jquery/jquery.validate.min.js")}}"></script>
     @stack("script")
 
 </body>

@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Edit Country') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('update-country', $country->id) }}">
+                        <form id="editCountry" method="POST" action="{{ route('update-country', $country->id) }}">
                             @csrf
                             @method('PUT')
 
@@ -34,5 +34,8 @@
             </div>
         </div>
     </div>
+    @push('script')
+        @include("script/editCountry")
+    @endpush
 @endsection
 

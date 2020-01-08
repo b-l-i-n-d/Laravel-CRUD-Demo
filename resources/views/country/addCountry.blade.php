@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Add Country') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('save-country') }}">
+                        <form id="addCountry" method="POST" action="{{ route('save-country') }}">
                             @csrf
 
                             <div class="form-group row">
@@ -33,6 +33,9 @@
             </div>
         </div>
     </div>
+    @push('script')
+        @include('script/addCountry')
+    @endpush
 
 @endsection
 

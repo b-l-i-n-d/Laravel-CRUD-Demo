@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Update Contact') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('update-contact', $contact->id) }}">
+                        <form id="editContact" method="POST" action="{{ route('update-contact', $contact->id) }}">
                             @csrf
                             @method('PUT')
                             <div class="form-group row">
@@ -30,11 +30,11 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                <label for="update-email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{$contact->email}}" autocomplete="email">
-                                    <small class="text-danger">{{ $errors->first('email') }}</small>
+                                    <input id="update-email" type="email" class="form-control" name="email" value="{{$contact->email}}" autocomplete="email">
+                                    <small id="update-email-error" class="text-danger">{{ $errors->first('email') }}</small>
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button id="update-submit-button" type="submit" class="btn btn-primary">
                                         {{ __('Update') }}
                                     </button>
                                 </div>
@@ -67,5 +67,8 @@
             </div>
         </div>
     </div>
+    @push('script')
+        @include("script/editContact")
+    @endpush
 @endsection
 

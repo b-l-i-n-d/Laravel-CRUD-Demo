@@ -1,61 +1,97 @@
-
 <script>
     $(function () {
-        console.log($("#createContact"));
-
-        setTimeout(function(){
-            $("#createContact").validate({
-                rules: {
-                    firstname: "required",
-                    lastname: "required",
-                    username: {
-                        required: true,
-                        minlength: 2
-                    },
-                    password: {
-                        required: true,
-                        minlength: 5
-                    },
-                    confirm_password: {
-                        required: true,
-                        minlength: 5,
-                        equalTo: "#password"
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    topic: {
-                        required: "#newsletter:checked",
-                        minlength: 2
-                    },
-                    agree: "required"
+        var email_error = true;
+        $("#createContact").validate({
+            rules: {
+                'firstName': 'required',
+                'lastName': 'required',
+                'email': {
+                    required: true,
+                    email: true,
                 },
-                messages: {
-                    firstname: "Please enter your firstname",
-                    lastname: "Please enter your lastname",
-                    username: {
-                        required: "Please enter a username",
-                        minlength: "Your username must consist of at least 2 characters"
-                    },
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long"
-                    },
-                    confirm_password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long",
-                        equalTo: "Please enter the same password as above"
-                    },
-                    email: "Please enter a valid email address",
-                    agree: "Please accept our policy",
-                    topic: "Please select at least 2 topics"
-                }
+                'country_id': 'required'
+            }
+        });
+
+        $('#email').keyup( function (event) {
+            // event.preventDefault();
+            var email = $('#email').val();
+            var _token= $("input[name='_token']").val();
+            console.log(email_error);
+            $.ajax({
+                url: "{{ route('validate-email') }}",
+                data: {
+                    email: email,
+                    _token : _token
+                },
+                type: 'POST',
+                success: function(data) {
+                    console.log(data);
+                    if (!email) {
+                        console.log('if');
+                        $("#create-email-error").html(
+                            '<small class="text-danger" style="display: block">Please enter a email</small>'
+                        );
+                        email_error =  true;
+                    } else if (!($.isEmptyObject(data.error))) {
+                        console.log('else if');
+
+                        $("#create-email-error").html(
+                            '<small class="text-danger">This email already exist</small>'
+                        );
+                        $("#create-email-error").css('display', 'block');
+                        console.log("after else if");
+                        email_error =  true;
+                    } else if (data.success === true) {
+                        console.log("else hide");
+                        $("#create-email-error").css("display", "none");
+                        email_error = false;
+                    }
+                    else {
+                        email_error =  false;
+                    }
+                },
             });
+        });
+
+        $("#create-contact-button").on('click', function (event) {
+            event.preventDefault();
+            var firstName = $('#firstName').val();
+            var lastName = $('#lastName').val();
+            var email = $('#email').val();
+            var country_id = $('#country_id').val();
+            var _token= $("input[name='_token']").val();
+
+            if ($("#createContact").valid() && email_error === false) {
+                console.log("valid");
+                // console.log(valid_email);
+                $.ajax({
+                    url: "{{route('save-contact')}}",
+                    data: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        country_id: country_id,
+                        _token: _token
+                    },
+                    type: 'POST',
+                    // cache: false,
+                    success: function (dataStatus) {
+                        console.log(dataStatus);
+                        // var dataResult = JSON.parse(dataStatus);
+                        if (dataStatus.statusCode == 200) {
+                            console.log("200");
+                            alert("Contact saved");
+                        } else if (dataStatus.statusCode == 201){
+                            console.log("Error");
+                            alert("Error encountered");
+                        }
+                    }
 
 
-        }, 3000);
-
-
+                })
+            }
+        })
+        // console.log()
     });
 </script>
